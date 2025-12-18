@@ -1,10 +1,39 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { X, Menu, Check } from 'lucide-react';
-import { DBData, Task, TaskState } from '@/lib/store';
+
+// Local type definitions for frontend-only app
+interface TaskState {
+  currentIndex: number;
+  extras: number[];
+  skips: number[];
+}
+
+interface Task {
+  name: string;
+  roster: string[];
+}
+
+interface HistoryEntry {
+  taskName: string;
+  people: string[];
+  timestamp: string;
+}
+
+interface RosterHistoryEntry {
+  timestamp: string;
+  details: string;
+}
+
+interface DBData {
+  customRoster: string[];
+  tasks: Task[];
+  state: Record<string, TaskState>;
+  history: HistoryEntry[];
+  rosterHistory: RosterHistoryEntry[];
+}
 
 interface DashboardProps {
     initialData: DBData;
@@ -16,37 +45,16 @@ export default function Dashboard({ initialData }: DashboardProps) {
     const [rosterText, setRosterText] = useState(initialData.customRoster.join(', '));
     const [showHistoryModal, setShowHistoryModal] = useState(false);
     const [selectedPerson, setSelectedPerson] = useState<string | null>(null);
-    const router = useRouter();
 
     // Sync roster text if data changes
     useEffect(() => {
         setRosterText(data.customRoster.join(', '));
     }, [data.customRoster]);
 
-    const saveData = async (newData: Partial<DBData>) => {
-        // Store previous data for potential rollback
-        const previousData = data;
-        
-        // Optimistic update
+    const updateData = (newData: Partial<DBData>) => {
+        // Update local state only (no backend persistence)
         const updated = { ...data, ...newData };
         setData(updated);
-
-        try {
-            const response = await fetch('/api/data', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newData),
-            });
-            
-            if (!response.ok) {
-                throw new Error('Failed to save data');
-            }
-        } catch (error) {
-            console.error('Failed to save data', error);
-            // Revert optimistic update on error
-            setData(previousData);
-            alert('Failed to save changes. Please try again.');
-        }
     };
 
     const handleDragStart = (e: React.DragEvent, person: string) => {
@@ -93,7 +101,7 @@ export default function Dashboard({ initialData }: DashboardProps) {
         }
 
         newState[taskStateKey] = currentTaskState;
-        saveData({ state: newState });
+        updateData({ state: newState });
         setSelectedPerson(null); // Clear selection after assignment
     };
 
@@ -116,7 +124,7 @@ export default function Dashboard({ initialData }: DashboardProps) {
             ...newState[taskStateKey],
             extras: newState[taskStateKey].extras.filter(i => i !== personIndex)
         };
-        saveData({ state: newState });
+        updateData({ state: newState });
     };
 
     const removeSkip = (taskIndex: number, personIndex: number) => {
@@ -126,7 +134,7 @@ export default function Dashboard({ initialData }: DashboardProps) {
             ...newState[taskStateKey],
             skips: newState[taskStateKey].skips.filter(i => i !== personIndex)
         };
-        saveData({ state: newState });
+        updateData({ state: newState });
     };
 
     const markDone = (taskIndex: number) => {
@@ -163,13 +171,10 @@ export default function Dashboard({ initialData }: DashboardProps) {
 
         newState[taskStateKey] = currentTaskState;
 
-        saveData({
+        updateData({
             state: newState,
             history: [...data.history, newHistoryEntry]
         });
-
-        // Refresh to show updated history
-        router.refresh();
     };
 
     const saveRoster = () => {
@@ -193,13 +198,13 @@ export default function Dashboard({ initialData }: DashboardProps) {
             return t;
         });
 
-        saveData({
+        updateData({
             customRoster: newRoster,
             rosterHistory: [...data.rosterHistory, logEntry],
             tasks: newTasks
         });
 
-        alert("Roster saved!");
+        alert("Roster updated! (Note: Changes are not persisted in this frontend-only version)");
     };
 
     const allPeople = Array.from(new Set(data.tasks.flatMap(t => t.roster))).sort();
