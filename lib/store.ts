@@ -47,9 +47,11 @@ export async function getData(): Promise<DBData> {
         try {
             const client = await clientPromise;
             const db = client.db('lab_task_manager');
-            const collection = db.collection<DBData & { _id: string }>('app_data');
+            // @ts-ignore - MongoDB string _id is valid
+            const collection = db.collection('app_data');
 
-            const data = await collection.findOne({ _id: 'main' } as any);
+            // @ts-ignore
+            const data = await collection.findOne({ _id: 'main' });
 
             if (data) {
                 const { _id, ...cleanData } = data;
@@ -58,7 +60,8 @@ export async function getData(): Promise<DBData> {
 
             // If no data in MongoDB yet, seed it from local file
             const initial = getInitialData();
-            await collection.insertOne({ _id: 'main', ...initial } as any);
+            // @ts-ignore
+            await collection.insertOne({ _id: 'main', ...initial });
             return initial;
         } catch (error) {
             console.error("MongoDB Error:", error);
@@ -76,10 +79,12 @@ export async function saveData(data: DBData) {
         try {
             const client = await clientPromise;
             const db = client.db('lab_task_manager');
-            const collection = db.collection<DBData & { _id: string }>('app_data');
+            // @ts-ignore - MongoDB string _id is valid
+            const collection = db.collection('app_data');
 
+            // @ts-ignore
             await collection.updateOne(
-                { _id: 'main' } as any,
+                { _id: 'main' },
                 { $set: data },
                 { upsert: true }
             );
