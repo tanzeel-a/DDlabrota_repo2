@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { get } from '@vercel/edge-config';
+import { kv } from '@vercel/kv';
 
 const DB_PATH = path.join(process.cwd(), 'db.json');
 
@@ -43,17 +43,19 @@ function getInitialData(): DBData {
 }
 
 export async function getData(): Promise<DBData> {
-    // Check if Edge Config is available
-    if (process.env.EDGE_CONFIG) {
+    // Check if Vercel KV is configured
+    if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
         try {
-            const data = await get<DBData>('lab_data');
+            const data = await kv.get<DBData>('lab_data');
             if (data) {
                 return data;
             }
-            // If no data in Edge Config yet, return initial data
-            return getInitialData();
+            // If no data in KV yet, seed it from local file
+            const initial = getInitialData();
+            await kv.set('lab_data', initial);
+            return initial;
         } catch (error) {
-            console.error("Edge Config Error:", error);
+            console.error("KV Error:", error);
             return getInitialData();
         }
     }
@@ -63,40 +65,10 @@ export async function getData(): Promise<DBData> {
 }
 
 export async function saveData(data: DBData) {
-    // Note: Edge Config is read-only from the app
-    // We need to use the Vercel API to update it
-    if (process.env.EDGE_CONFIG && process.env.VERCEL_API_TOKEN) {
-        try {
-            const edgeConfigId = process.env.EDGE_CONFIG.split('/').pop()?.split('?')[0];
-
-            const response = await fetch(
-                `https://api.vercel.com/v1/edge-config/${edgeConfigId}/items`,
-                {
-                    method: 'PATCH',
-                    headers: {
-                        'Authorization': `Bearer ${process.env.VERCEL_API_TOKEN}`,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        items: [
-                            {
-                                operation: 'upsert',
-                                key: 'lab_data',
-                                value: data,
-                            },
-                        ],
-                    }),
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error('Failed to update Edge Config');
-            }
-            return;
-        } catch (error) {
-            console.error("Edge Config Save Error:", error);
-            // Fall back to local file
-        }
+    // Vercel KV
+    if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+        await kv.set('lab_data', data);
+        return;
     }
 
     // Local File Fallback
