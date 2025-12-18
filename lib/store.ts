@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import clientPromise from './mongodb';
+import { get } from '@vercel/edge-config';
 
 const DB_PATH = path.join(process.cwd(), 'db.json');
 
@@ -43,52 +43,59 @@ function getInitialData(): DBData {
 }
 
 export async function getData(): Promise<DBData> {
-    // Check if MongoDB is configured
-    if (process.env.MONGODB_URI) {
+    // Check if Edge Config is available
+    if (process.env.EDGE_CONFIG) {
         try {
-            const client = await clientPromise;
-            const db = client.db('lab_task_manager');
-            const collection = db.collection('app_data');
-
-            const data = await collection.findOne({ _id: 'main' });
-
+            const data = await get<DBData>('lab_data');
             if (data) {
-                // Remove MongoDB _id field before returning
-                const { _id, ...cleanData } = data;
-                return cleanData as DBData;
+                return data;
             }
-
-            // If no data in MongoDB yet, seed it from local file
-            const initial = getInitialData();
-            await collection.insertOne({ _id: 'main', ...initial });
-            return initial;
+            // If no data in Edge Config yet, return initial data
+            return getInitialData();
         } catch (error) {
-            console.error("MongoDB Error:", error);
+            console.error("Edge Config Error:", error);
             return getInitialData();
         }
     }
 
-    // Local File Fallback (for development without MongoDB)
+    // Local File Fallback (for development)
     return getInitialData();
 }
 
 export async function saveData(data: DBData) {
-    // MongoDB
-    if (process.env.MONGODB_URI) {
+    // Note: Edge Config is read-only from the app
+    // We need to use the Vercel API to update it
+    if (process.env.EDGE_CONFIG && process.env.VERCEL_API_TOKEN) {
         try {
-            const client = await clientPromise;
-            const db = client.db('lab_task_manager');
-            const collection = db.collection('app_data');
+            const edgeConfigId = process.env.EDGE_CONFIG.split('/').pop()?.split('?')[0];
 
-            await collection.updateOne(
-                { _id: 'main' },
-                { $set: data },
-                { upsert: true }
+            const response = await fetch(
+                `https://api.vercel.com/v1/edge-config/${edgeConfigId}/items`,
+                {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${process.env.VERCEL_API_TOKEN}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        items: [
+                            {
+                                operation: 'upsert',
+                                key: 'lab_data',
+                                value: data,
+                            },
+                        ],
+                    }),
+                }
             );
+
+            if (!response.ok) {
+                throw new Error('Failed to update Edge Config');
+            }
             return;
         } catch (error) {
-            console.error("MongoDB Save Error:", error);
-            throw error;
+            console.error("Edge Config Save Error:", error);
+            // Fall back to local file
         }
     }
 
