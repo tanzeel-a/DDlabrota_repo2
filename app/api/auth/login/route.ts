@@ -4,11 +4,7 @@ import { cookies } from 'next/headers';
 
 export async function POST(request: Request) {
     try {
-        const { name, password } = await request.json();
-
-        if (password !== 'DDLAB') {
-            return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
-        }
+        const { name } = await request.json();
 
         const data = await getData();
 

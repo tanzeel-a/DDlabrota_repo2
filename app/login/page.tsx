@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
     const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const router = useRouter();
 
@@ -17,7 +16,7 @@ export default function LoginPage() {
             const res = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, password }),
+                body: JSON.stringify({ name }),
             });
 
             if (res.ok) {
@@ -44,17 +43,6 @@ export default function LoginPage() {
                             onChange={(e) => setName(e.target.value)}
                             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-black"
                             placeholder="Enter your name"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium mb-1">Password</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-black"
-                            placeholder="Enter password"
                             required
                         />
                     </div>
