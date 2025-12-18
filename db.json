@@ -1,0 +1,684 @@
+{
+  "tasks": [
+    {
+      "name": "BCA standards (5, 2, 1, 0.5, 0.1, 0.05)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "10X TBS (1L)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "10X Transfer buffer (1L)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "10X Running buffer (1L)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "2M KCl (1L)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "1M HEPES (1L)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "Protein loading dye (10mL)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "SDS Staining solution (300mL)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "SDS Destaining solution (1L)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "pH 6.8 buffer (1L)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "pH 8.8 buffer (1L)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "10% APS (10mL)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "Kanamycin solution (20mL)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "Ampicillin solution (20mL)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "1M IPTG (20mL)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "DNases (10mL)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "1ml tip filling",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "200ul tip filling",
+      "roster": [
+        "Malavika",
+        "Seeddhartha",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "10ul tip filling",
+      "roster": [
+        "Malavika",
+        "Seeddhartha",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "Kan LB plates (250mL LBA)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "Amp LB plates (250mL LBA)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "70% glycerol autoclaved (50mL)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "70% alcohol (3L) wash bottles + 500ml bottle(1)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "5M Imidazole (20mL)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "25% Triton-100 (40mL)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "10X TAE (1L)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "Comp cells BL21 (100mL starter)",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "Thrombin",
+      "roster": [
+        "Divya",
+        "Malavika",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel"
+      ]
+    },
+    {
+      "name": "BLOT discard",
+      "roster": [
+        "Divya",
+        "Seeddhartha",
+        "Malavika",
+        "Ankita",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel",
+        "Devanshi G",
+        "Sneha"
+      ]
+    },
+    {
+      "name": "FPLC column wash with 0.5M NaOH (once/month)",
+      "roster": [
+        "Divya",
+        "Malavika",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel"
+      ]
+    },
+    {
+      "name": "Computer area cleaning",
+      "roster": [
+        "Divya",
+        "Malavika",
+        "Shahina",
+        "Sruthilaya",
+        "Devanshee",
+        "Aafra",
+        "Tanzeel"
+      ]
+    }
+  ],
+  "state": {
+    "0": {
+      "currentIndex": 5,
+      "skips": [],
+      "extras": []
+    },
+    "1": {
+      "currentIndex": 3,
+      "skips": [],
+      "extras": []
+    },
+    "2": {
+      "currentIndex": 6,
+      "skips": [
+        3
+      ],
+      "extras": []
+    },
+    "3": {
+      "currentIndex": 5,
+      "skips": [],
+      "extras": []
+    },
+    "4": {
+      "currentIndex": 6,
+      "skips": [
+        1,
+        5
+      ],
+      "extras": []
+    },
+    "5": {
+      "currentIndex": 5,
+      "skips": [],
+      "extras": []
+    },
+    "6": {
+      "currentIndex": 3,
+      "skips": [],
+      "extras": []
+    },
+    "7": {
+      "currentIndex": 3,
+      "skips": [],
+      "extras": []
+    },
+    "8": {
+      "currentIndex": 7,
+      "skips": [
+        6
+      ],
+      "extras": []
+    },
+    "9": {
+      "currentIndex": 5,
+      "skips": [],
+      "extras": []
+    },
+    "10": {
+      "currentIndex": 3,
+      "skips": [],
+      "extras": []
+    },
+    "11": {
+      "currentIndex": 7,
+      "skips": [
+        1,
+        2,
+        3,
+        6,
+        8
+      ],
+      "extras": []
+    },
+    "12": {
+      "currentIndex": 1,
+      "skips": [],
+      "extras": []
+    },
+    "13": {
+      "currentIndex": 6,
+      "skips": [],
+      "extras": []
+    },
+    "14": {
+      "currentIndex": 2,
+      "skips": [],
+      "extras": []
+    },
+    "15": {
+      "currentIndex": 6,
+      "skips": [
+        2
+      ],
+      "extras": []
+    },
+    "16": {
+      "currentIndex": 5,
+      "skips": [],
+      "extras": []
+    },
+    "17": {
+      "currentIndex": 2,
+      "skips": [
+        0
+      ],
+      "extras": []
+    },
+    "18": {
+      "currentIndex": 2,
+      "skips": [
+        0
+      ],
+      "extras": []
+    },
+    "19": {
+      "currentIndex": 6,
+      "skips": [
+        0,
+        5
+      ],
+      "extras": []
+    },
+    "20": {
+      "currentIndex": 6,
+      "skips": [],
+      "extras": []
+    },
+    "21": {
+      "currentIndex": 3,
+      "skips": [
+        0
+      ],
+      "extras": []
+    },
+    "22": {
+      "currentIndex": 5,
+      "skips": [],
+      "extras": []
+    },
+    "23": {
+      "currentIndex": 0,
+      "skips": [],
+      "extras": []
+    },
+    "24": {
+      "currentIndex": 6,
+      "skips": [
+        5
+      ],
+      "extras": []
+    },
+    "25": {
+      "currentIndex": 3,
+      "skips": [],
+      "extras": []
+    },
+    "26": {
+      "currentIndex": 1,
+      "skips": [],
+      "extras": []
+    },
+    "27": {
+      "currentIndex": 4,
+      "skips": [],
+      "extras": []
+    },
+    "28": {
+      "currentIndex": 3,
+      "skips": [],
+      "extras": []
+    },
+    "29": {
+      "currentIndex": 4,
+      "skips": [],
+      "extras": []
+    },
+    "30": {
+      "currentIndex": 6,
+      "skips": [],
+      "extras": []
+    }
+  },
+  "history": [],
+  "rosterHistory": [],
+  "customRoster": [
+    "Divya",
+    "Seeddhartha",
+    "Malavika",
+    "Ankita",
+    "Shahina",
+    "Sruthilaya",
+    "Devanshee",
+    "Aafra",
+    "Tanzeel",
+    "Devanshi G",
+    "Sneha"
+  ]
+}
