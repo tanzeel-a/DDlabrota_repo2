@@ -10,11 +10,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
         }
 
-        const data = getData();
-        // Check if name is in any roster or the custom roster
-        // We can check the customRoster first, or iterate through all tasks.
-        // The user said "authenticate if the user is someone from the roster".
-        // Let's check the customRoster (Standard Team) + any unique names in tasks.
+        const data = await getData();
 
         const allPeople = new Set<string>();
         data.customRoster.forEach(p => allPeople.add(p));

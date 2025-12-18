@@ -651,7 +651,7 @@
       "extras": []
     },
     "28": {
-      "currentIndex": 3,
+      "currentIndex": 9,
       "skips": [],
       "extras": []
     },
@@ -666,7 +666,50 @@
       "extras": []
     }
   },
-  "history": [],
+  "history": [
+    {
+      "taskName": "BLOT discard",
+      "people": [
+        "Ankita"
+      ],
+      "timestamp": "2025-12-18T20:06:26.178Z"
+    },
+    {
+      "taskName": "BLOT discard",
+      "people": [
+        "Shahina"
+      ],
+      "timestamp": "2025-12-18T20:06:26.641Z"
+    },
+    {
+      "taskName": "BLOT discard",
+      "people": [
+        "Sruthilaya"
+      ],
+      "timestamp": "2025-12-18T20:06:26.790Z"
+    },
+    {
+      "taskName": "BLOT discard",
+      "people": [
+        "Devanshee"
+      ],
+      "timestamp": "2025-12-18T20:06:26.957Z"
+    },
+    {
+      "taskName": "BLOT discard",
+      "people": [
+        "Aafra"
+      ],
+      "timestamp": "2025-12-18T20:06:27.142Z"
+    },
+    {
+      "taskName": "BLOT discard",
+      "people": [
+        "Tanzeel"
+      ],
+      "timestamp": "2025-12-18T20:06:27.324Z"
+    }
+  ],
   "rosterHistory": [],
   "customRoster": [
     "Divya",

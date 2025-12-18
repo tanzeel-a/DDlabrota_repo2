@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 export default async function TaskHistoryPage({ params }: { params: Promise<{ name: string }> }) {
     const { name } = await params;
     const decodedName = decodeURIComponent(name);
-    const data = getData();
+    const data = await getData();
 
     const history = data.history
         .filter(entry => entry.taskName === decodedName)
