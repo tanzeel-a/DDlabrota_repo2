@@ -43,7 +43,7 @@ function getInitialData(): DBData {
 
 export async function getData(): Promise<DBData> {
     // Check if MongoDB is configured
-    if (process.env.MONGODB_URI) {
+    if (process.env.MONGODB_URI && clientPromise) {
         try {
             const client = await clientPromise;
             const db = client.db('lab_task_manager');
@@ -75,7 +75,7 @@ export async function getData(): Promise<DBData> {
 
 export async function saveData(data: DBData) {
     // MongoDB
-    if (process.env.MONGODB_URI) {
+    if (process.env.MONGODB_URI && clientPromise) {
         try {
             const client = await clientPromise;
             const db = client.db('lab_task_manager');
@@ -91,7 +91,9 @@ export async function saveData(data: DBData) {
             return;
         } catch (error) {
             console.error("MongoDB Save Error:", error);
-            throw error;
+            // Fallback to file if MongoDB fails
+            fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
+            return;
         }
     }
 

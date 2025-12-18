@@ -24,18 +24,28 @@ export default function Dashboard({ initialData }: DashboardProps) {
     }, [data.customRoster]);
 
     const saveData = async (newData: Partial<DBData>) => {
+        // Store previous data for potential rollback
+        const previousData = data;
+        
         // Optimistic update
         const updated = { ...data, ...newData };
         setData(updated);
 
         try {
-            await fetch('/api/data', {
+            const response = await fetch('/api/data', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newData),
             });
+            
+            if (!response.ok) {
+                throw new Error('Failed to save data');
+            }
         } catch (error) {
             console.error('Failed to save data', error);
+            // Revert optimistic update on error
+            setData(previousData);
+            alert('Failed to save changes. Please try again.');
         }
     };
 
@@ -55,7 +65,8 @@ export default function Dashboard({ initialData }: DashboardProps) {
         }
 
         const newState = { ...data.state };
-        const currentTaskState = { ...newState[taskIndex] };
+        const taskStateKey = taskIndex.toString();
+        const currentTaskState = { ...newState[taskStateKey] };
 
         if (type === 'blue') {
             if (currentTaskState.currentIndex === personIndex) return;
@@ -81,7 +92,7 @@ export default function Dashboard({ initialData }: DashboardProps) {
             }
         }
 
-        newState[taskIndex] = currentTaskState;
+        newState[taskStateKey] = currentTaskState;
         saveData({ state: newState });
         setSelectedPerson(null); // Clear selection after assignment
     };
@@ -100,19 +111,28 @@ export default function Dashboard({ initialData }: DashboardProps) {
 
     const removeExtra = (taskIndex: number, personIndex: number) => {
         const newState = { ...data.state };
-        newState[taskIndex].extras = newState[taskIndex].extras.filter(i => i !== personIndex);
+        const taskStateKey = taskIndex.toString();
+        newState[taskStateKey] = {
+            ...newState[taskStateKey],
+            extras: newState[taskStateKey].extras.filter(i => i !== personIndex)
+        };
         saveData({ state: newState });
     };
 
     const removeSkip = (taskIndex: number, personIndex: number) => {
         const newState = { ...data.state };
-        newState[taskIndex].skips = newState[taskIndex].skips.filter(i => i !== personIndex);
+        const taskStateKey = taskIndex.toString();
+        newState[taskStateKey] = {
+            ...newState[taskStateKey],
+            skips: newState[taskStateKey].skips.filter(i => i !== personIndex)
+        };
         saveData({ state: newState });
     };
 
     const markDone = (taskIndex: number) => {
         const task = data.tasks[taskIndex];
-        const taskState = data.state[taskIndex];
+        const taskStateKey = taskIndex.toString();
+        const taskState = data.state[taskStateKey];
 
         const currentPerson = task.roster[taskState.currentIndex];
         const extraPeople = taskState.extras.map(i => task.roster[i]);
@@ -126,7 +146,7 @@ export default function Dashboard({ initialData }: DashboardProps) {
         };
 
         const newState = { ...data.state };
-        const currentTaskState = { ...newState[taskIndex] };
+        const currentTaskState = { ...newState[taskStateKey] };
 
         // Clear extras
         currentTaskState.extras = [];
@@ -141,12 +161,15 @@ export default function Dashboard({ initialData }: DashboardProps) {
         }
         currentTaskState.currentIndex = nextIndex;
 
-        newState[taskIndex] = currentTaskState;
+        newState[taskStateKey] = currentTaskState;
 
         saveData({
             state: newState,
             history: [...data.history, newHistoryEntry]
         });
+
+        // Refresh to show updated history
+        router.refresh();
     };
 
     const saveRoster = () => {
@@ -258,7 +281,7 @@ export default function Dashboard({ initialData }: DashboardProps) {
                             </thead>
                             <tbody>
                                 {data.tasks.map((task, index) => {
-                                    const state = data.state[index];
+                                    const state = data.state[index.toString()];
                                     const currentPerson = task.roster[state.currentIndex];
 
                                     return (

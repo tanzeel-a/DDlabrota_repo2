@@ -490,15 +490,13 @@
       "extras": []
     },
     "1": {
-      "currentIndex": 3,
+      "currentIndex": 4,
       "skips": [],
       "extras": []
     },
     "2": {
-      "currentIndex": 6,
-      "skips": [
-        3
-      ],
+      "currentIndex": 0,
+      "skips": [],
       "extras": []
     },
     "3": {
@@ -708,6 +706,118 @@
         "Tanzeel"
       ],
       "timestamp": "2025-12-18T20:06:27.324Z"
+    },
+    {
+      "taskName": "10X TBS (1L)",
+      "people": [
+        "Ankita"
+      ],
+      "timestamp": "2025-12-18T21:34:35.231Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Devanshee"
+      ],
+      "timestamp": "2025-12-18T21:34:41.747Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Aafra"
+      ],
+      "timestamp": "2025-12-18T21:34:42.647Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Tanzeel"
+      ],
+      "timestamp": "2025-12-18T21:34:42.829Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Devanshi G"
+      ],
+      "timestamp": "2025-12-18T21:34:42.980Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Sneha"
+      ],
+      "timestamp": "2025-12-18T21:34:43.162Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Divya"
+      ],
+      "timestamp": "2025-12-18T21:34:43.629Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Seeddhartha"
+      ],
+      "timestamp": "2025-12-18T21:34:43.813Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Malavika"
+      ],
+      "timestamp": "2025-12-18T21:34:43.996Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Shahina"
+      ],
+      "timestamp": "2025-12-18T21:34:44.146Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Sruthilaya"
+      ],
+      "timestamp": "2025-12-18T21:34:44.279Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Devanshee"
+      ],
+      "timestamp": "2025-12-18T21:34:44.429Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Aafra"
+      ],
+      "timestamp": "2025-12-18T21:34:44.596Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Tanzeel"
+      ],
+      "timestamp": "2025-12-18T21:34:44.762Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Devanshi G"
+      ],
+      "timestamp": "2025-12-18T21:34:44.896Z"
+    },
+    {
+      "taskName": "10X Transfer buffer (1L)",
+      "people": [
+        "Sneha"
+      ],
+      "timestamp": "2025-12-18T21:34:45.063Z"
     }
   ],
   "rosterHistory": [],
