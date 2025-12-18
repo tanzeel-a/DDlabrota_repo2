@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { X, Menu } from 'lucide-react';
+import { X, Menu, Check } from 'lucide-react';
 import { DBData, Task, TaskState } from '@/lib/store';
 
 interface DashboardProps {
@@ -15,6 +15,7 @@ export default function Dashboard({ initialData }: DashboardProps) {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [rosterText, setRosterText] = useState(initialData.customRoster.join(', '));
     const [showHistoryModal, setShowHistoryModal] = useState(false);
+    const [selectedPerson, setSelectedPerson] = useState<string | null>(null);
     const router = useRouter();
 
     // Sync roster text if data changes
@@ -35,20 +36,17 @@ export default function Dashboard({ initialData }: DashboardProps) {
             });
         } catch (error) {
             console.error('Failed to save data', error);
-            // Revert on error? For now just log.
         }
     };
 
     const handleDragStart = (e: React.DragEvent, person: string) => {
         e.dataTransfer.setData('text/plain', person);
         e.dataTransfer.effectAllowed = 'copy';
+        setSelectedPerson(person); // Also select on drag
     };
 
-    const handleDrop = (e: React.DragEvent, taskIndex: number, type: 'blue' | 'red') => {
-        e.preventDefault();
-        const personName = e.dataTransfer.getData('text/plain');
+    const assignPerson = (taskIndex: number, personName: string, type: 'blue' | 'red') => {
         const task = data.tasks[taskIndex];
-        const taskState = data.state[taskIndex];
         const personIndex = task.roster.indexOf(personName);
 
         if (personIndex === -1) {
@@ -85,6 +83,19 @@ export default function Dashboard({ initialData }: DashboardProps) {
 
         newState[taskIndex] = currentTaskState;
         saveData({ state: newState });
+        setSelectedPerson(null); // Clear selection after assignment
+    };
+
+    const handleDrop = (e: React.DragEvent, taskIndex: number, type: 'blue' | 'red') => {
+        e.preventDefault();
+        const personName = e.dataTransfer.getData('text/plain');
+        assignPerson(taskIndex, personName, type);
+    };
+
+    const handleCellClick = (taskIndex: number, type: 'blue' | 'red') => {
+        if (selectedPerson) {
+            assignPerson(taskIndex, selectedPerson, type);
+        }
     };
 
     const removeExtra = (taskIndex: number, personIndex: number) => {
@@ -150,8 +161,6 @@ export default function Dashboard({ initialData }: DashboardProps) {
             details: `Roster updated. New count: ${newRoster.length}. Names: ${newRoster.join(', ')}`
         };
 
-        // Update tasks that use the standard roster (heuristic: if they matched the old custom roster or standard team)
-        // For simplicity, we'll update all tasks except known special ones.
         const specialTasks = ["200ul tip filling", "10ul tip filling", "Thrombin", "FPLC column wash with 0.5M NaOH (once/month)", "Computer area cleaning"];
 
         const newTasks = data.tasks.map(t => {
@@ -170,67 +179,71 @@ export default function Dashboard({ initialData }: DashboardProps) {
         alert("Roster saved!");
     };
 
-    // Derived list of all people for sidebar
     const allPeople = Array.from(new Set(data.tasks.flatMap(t => t.roster))).sort();
 
     return (
         <div className="flex h-screen overflow-hidden bg-white text-black font-sans">
             {/* Sidebar */}
             <aside
-                className={`bg-gray-100 border-r border-gray-200 flex flex-col transition-all duration-300 ${sidebarCollapsed ? 'w-0 p-0 opacity-0 overflow-hidden' : 'w-64 p-5'
+                className={`bg-gray-100 border-r border-gray-200 flex flex-col transition-all duration-300 z-20 ${sidebarCollapsed ? 'w-0 p-0 opacity-0 overflow-hidden' : 'w-64 p-5 absolute md:relative h-full shadow-xl md:shadow-none'
                     }`}
             >
                 <div className="flex justify-between items-center mb-5">
                     <div>
                         <h2 className="text-lg font-bold">Team Roster</h2>
-                        <p className="text-xs text-gray-500">Drag names to table</p>
+                        <p className="text-xs text-gray-500">Tap to select or Drag</p>
                     </div>
                     <button onClick={() => setSidebarCollapsed(true)} className="text-gray-500 hover:text-black">
                         <X size={20} />
                     </button>
                 </div>
-                <div className="flex-1 overflow-y-auto space-y-2">
+                <div className="flex-1 overflow-y-auto space-y-2 pb-20">
                     {allPeople.map(person => (
                         <div
                             key={person}
                             draggable
                             onDragStart={(e) => handleDragStart(e, person)}
-                            className="bg-white p-2 rounded border border-gray-200 cursor-grab hover:border-black hover:shadow-sm transition-all"
+                            onClick={() => setSelectedPerson(selectedPerson === person ? null : person)}
+                            className={`p-2 rounded border cursor-pointer transition-all flex justify-between items-center ${selectedPerson === person
+                                    ? 'bg-black text-white border-black shadow-md'
+                                    : 'bg-white border-gray-200 hover:border-black hover:shadow-sm'
+                                }`}
                         >
-                            <Link href={`/profile/${encodeURIComponent(person)}`} className="block w-full h-full">
-                                {person}
-                            </Link>
+                            <span>{person}</span>
+                            {selectedPerson === person && <Check size={16} />}
                         </div>
                     ))}
                 </div>
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 flex flex-col h-full overflow-hidden">
-                <header className="p-6 border-b border-gray-100 flex items-center gap-4">
-                    {sidebarCollapsed && (
-                        <button
-                            onClick={() => setSidebarCollapsed(false)}
-                            className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50 flex items-center gap-2"
-                        >
-                            <Menu size={16} /> Show Roster
-                        </button>
-                    )}
-                    <div>
-                        <h1 className="text-2xl font-bold">Lab Task Manager</h1>
-                        <p className="text-sm text-gray-500">Drag and drop people to assign or skip.</p>
+            <main className="flex-1 flex flex-col h-full overflow-hidden relative">
+                <header className="p-4 md:p-6 border-b border-gray-100 flex items-center gap-4 bg-white z-10">
+                    <button
+                        onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                        className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50 flex items-center gap-2"
+                    >
+                        <Menu size={16} /> {sidebarCollapsed ? 'Show Roster' : 'Hide'}
+                    </button>
+                    <div className="flex-1">
+                        <h1 className="text-xl md:text-2xl font-bold">Lab Task Manager</h1>
+                        <p className="text-xs md:text-sm text-gray-500">
+                            {selectedPerson
+                                ? `Selected: ${selectedPerson} (Tap a box to assign)`
+                                : "Tap a name to select, then tap a box to assign."}
+                        </p>
                     </div>
                 </header>
 
-                <div className="flex-1 overflow-y-auto p-6">
+                <div className="flex-1 overflow-y-auto p-4 md:p-6">
                     <div className="border border-gray-200 rounded-lg overflow-x-auto mb-8">
                         <table className="w-full min-w-[800px] border-collapse">
                             <thead>
                                 <tr className="bg-white border-b-2 border-gray-100">
-                                    <th className="p-4 text-left font-semibold text-sm">Task</th>
-                                    <th className="p-4 text-left font-semibold text-sm">Next In Charge (Blue)</th>
-                                    <th className="p-4 text-left font-semibold text-sm">Skipped (Red)</th>
-                                    <th className="p-4 text-left font-semibold text-sm">Action</th>
+                                    <th className="p-4 text-left font-semibold text-sm w-1/4">Task</th>
+                                    <th className="p-4 text-left font-semibold text-sm w-1/4">Next In Charge (Blue)</th>
+                                    <th className="p-4 text-left font-semibold text-sm w-1/4">Skipped (Red)</th>
+                                    <th className="p-4 text-left font-semibold text-sm w-1/4">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -248,10 +261,11 @@ export default function Dashboard({ initialData }: DashboardProps) {
 
                                             {/* Blue Zone */}
                                             <td
-                                                className="p-4 transition-colors"
+                                                className={`p-4 transition-colors cursor-pointer ${selectedPerson ? 'hover:bg-blue-50 ring-inset hover:ring-2 ring-blue-200' : ''}`}
                                                 onDragOver={(e) => { e.preventDefault(); e.currentTarget.classList.add('bg-blue-50'); }}
                                                 onDragLeave={(e) => { e.currentTarget.classList.remove('bg-blue-50'); }}
                                                 onDrop={(e) => { e.currentTarget.classList.remove('bg-blue-50'); handleDrop(e, index, 'blue'); }}
+                                                onClick={() => handleCellClick(index, 'blue')}
                                             >
                                                 <span className="inline-block px-3 py-1 bg-blue-100 text-blue-900 rounded-full text-sm font-semibold mr-2 mb-1">
                                                     {currentPerson}
@@ -259,17 +273,18 @@ export default function Dashboard({ initialData }: DashboardProps) {
                                                 {state.extras.map(extraIndex => (
                                                     <span key={extraIndex} className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-900 rounded-full text-sm border border-dashed border-blue-900 mr-2 mb-1">
                                                         {task.roster[extraIndex]}
-                                                        <button onClick={() => removeExtra(index, extraIndex)} className="ml-1 hover:text-red-600">×</button>
+                                                        <button onClick={(e) => { e.stopPropagation(); removeExtra(index, extraIndex); }} className="ml-1 hover:text-red-600">×</button>
                                                     </span>
                                                 ))}
                                             </td>
 
                                             {/* Red Zone */}
                                             <td
-                                                className="p-4 transition-colors"
+                                                className={`p-4 transition-colors cursor-pointer ${selectedPerson ? 'hover:bg-red-50 ring-inset hover:ring-2 ring-red-200' : ''}`}
                                                 onDragOver={(e) => { e.preventDefault(); e.currentTarget.classList.add('bg-red-50'); }}
                                                 onDragLeave={(e) => { e.currentTarget.classList.remove('bg-red-50'); }}
                                                 onDrop={(e) => { e.currentTarget.classList.remove('bg-red-50'); handleDrop(e, index, 'red'); }}
+                                                onClick={() => handleCellClick(index, 'red')}
                                             >
                                                 {state.skips.length === 0 ? (
                                                     <span className="text-gray-400 text-sm">-</span>
@@ -277,7 +292,7 @@ export default function Dashboard({ initialData }: DashboardProps) {
                                                     state.skips.map(skipIndex => (
                                                         <span key={skipIndex} className="inline-flex items-center px-3 py-1 bg-red-100 text-red-900 rounded-full text-sm mr-2 mb-1">
                                                             {task.roster[skipIndex]}
-                                                            <button onClick={() => removeSkip(index, skipIndex)} className="ml-1 hover:text-red-600">×</button>
+                                                            <button onClick={(e) => { e.stopPropagation(); removeSkip(index, skipIndex); }} className="ml-1 hover:text-red-600">×</button>
                                                         </span>
                                                     ))
                                                 )}
@@ -301,14 +316,13 @@ export default function Dashboard({ initialData }: DashboardProps) {
                     {/* Roster Editor */}
                     <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 mt-auto">
                         <h3 className="font-semibold mb-2">Roster Configuration</h3>
-                        <p className="text-sm text-gray-500 mb-4">Edit the Standard Team list below. Changes will be saved to history.</p>
                         <textarea
                             value={rosterText}
                             onChange={(e) => setRosterText(e.target.value)}
                             className="w-full p-3 border border-gray-300 rounded mb-4 text-sm font-sans"
                             rows={4}
                         />
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 flex-wrap">
                             <button
                                 onClick={saveRoster}
                                 className="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-800 text-sm font-semibold"
@@ -329,7 +343,7 @@ export default function Dashboard({ initialData }: DashboardProps) {
             {/* History Modal */}
             {showHistoryModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowHistoryModal(false)}>
-                    <div className="bg-white p-6 rounded-lg w-full max-w-lg max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+                    <div className="bg-white p-6 rounded-lg w-full max-w-lg max-h-[80vh] overflow-y-auto m-4" onClick={e => e.stopPropagation()}>
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-xl font-bold">Roster Change Log</h2>
                             <button onClick={() => setShowHistoryModal(false)} className="text-gray-500 hover:text-black text-2xl">×</button>
