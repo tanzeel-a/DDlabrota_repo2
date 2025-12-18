@@ -203,14 +203,24 @@ export default function Dashboard({ initialData }: DashboardProps) {
                             key={person}
                             draggable
                             onDragStart={(e) => handleDragStart(e, person)}
-                            onClick={() => setSelectedPerson(selectedPerson === person ? null : person)}
-                            className={`p-2 rounded border cursor-pointer transition-all flex justify-between items-center ${selectedPerson === person
-                                    ? 'bg-black text-white border-black shadow-md'
-                                    : 'bg-white border-gray-200 hover:border-black hover:shadow-sm'
+                            className={`p-2 rounded border transition-all flex justify-between items-center ${selectedPerson === person
+                                ? 'bg-black text-white border-black shadow-md'
+                                : 'bg-white border-gray-200 hover:border-black hover:shadow-sm'
                                 }`}
                         >
-                            <span>{person}</span>
-                            {selectedPerson === person && <Check size={16} />}
+                            <Link
+                                href={`/profile/${encodeURIComponent(person)}`}
+                                className="flex-1 cursor-pointer"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                {person}
+                            </Link>
+                            <button
+                                onClick={() => setSelectedPerson(selectedPerson === person ? null : person)}
+                                className="ml-2 cursor-pointer"
+                            >
+                                {selectedPerson === person && <Check size={16} />}
+                            </button>
                         </div>
                     ))}
                 </div>
